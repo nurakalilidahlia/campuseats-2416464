@@ -1,6 +1,5 @@
-function Header() {
-  const cartCount = 0 // becomes state in Part C
- 
+function Header({CartCount}) {
+  
   return (
     <header className="header">
       <h1 className="logo">CampusEats</h1>
@@ -8,7 +7,7 @@ function Header() {
         <a href="#">Vendors</a>
         <a href="#">My Orders</a>
         <a href="#" className="cart">
-          Cart <span className="badge">{cartCount}</span>
+          Cart <span className="badge">{CartCount}</span>
         </a>
       </nav>
     </header>
