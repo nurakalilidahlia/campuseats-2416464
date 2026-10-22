@@ -1,0 +1,53 @@
+[
+  {
+    "id": "2416464-dahls-ramen",
+    "name": "Dahl's Japanese Ramen",
+    "location": "Mahallah Asma, Block C",
+    "openHours": "11:00 am - 10:00 pm",
+    "isOpen": true,
+    "menu": [
+      { "id": "2416464-m1", "name": "Spicy Tonkotsu Ramen", "price": 15.0, "category": "Ramen", "popular": true, "spice": 4 },
+      { "id": "2416464-m2", "name": "Shoyu Ramen", "price": 13.0, "category": "Ramen", "popular": true, "spice": 1 },
+      { "id": "2416464-m3", "name": "Miso Ramen", "price": 14.0, "category": "Ramen", "popular": false, "spice": 2 },
+      { "id": "2416464-m4", "name": "Gyoza (5 pcs)", "price": 6.0, "category": "Sides", "popular": true, "spice": 1 },
+      { "id": "2416464-m5", "name": "Karaage Chicken", "price": 7.5, "category": "Sides", "popular": true, "spice": 1 },
+      { "id": "2416464-m6", "name": "Matcha Strawberry", "price": 5.5, "category": "Drinks", "popular": true, "spice": 1 },
+      { "id": "2416464-m7", "name": "Japanese Lemonade", "price": 4.0, "category": "Drinks", "popular": false, "spice": 1 },
+      { "id": "2416464-m8", "name": "Green Tea", "price": 2.0, "category": "Drinks", "popular": false, "spice": 1 }
+    ]
+  },
+  {
+    "id": "2410350-shawarma-house",
+    "name": "Shawarma House",
+    "location": "Mahallah Halimah, Block PG, Ground Floor",
+    "openHours": "7:00 am - 10:00 pm",
+    "isOpen": true,
+    "menu": [
+      { "id": "2410350-s-1", "name": "Chicken Shawarma", "price": 6, "category": "Sandwiches", "popular": true, "spice": 1 },
+      { "id": "2410350-s-2", "name": "Beef Shawarma", "price": 7, "category": "Sandwiches", "popular": true, "spice": 1 },
+      { "id": "2410350-s-3", "name": "Zinger Chicken Wrap", "price": 8, "category": "Sandwiches", "popular": true, "spice": 1 },
+      { "id": "2410350-b-1", "name": "Mint Lemonade", "price": 3, "category": "Drinks", "popular": true, "spice": 1 },
+      { "id": "2410350-b-2", "name": "Yogurt Drink", "price": 4, "category": "Drinks", "popular": true, "spice": 1 },
+      { "id": "2410350-d-1", "name": "Baklava", "price": 8, "category": "Desserts", "popular": true, "spice": 1 },
+      { "id": "2410350-d-2", "name": "Kunafa", "price": 8, "category": "Desserts", "popular": true, "spice": 1 },
+      { "id": "2410350-d-3", "name": "Middle Eastern Milk Pudding", "price": 5, "category": "Desserts", "popular": true, "spice": 1 }
+    ]
+  },
+  {
+    "id": "2415246-desserts-irdina",
+    "name": "Sweet Treats",
+    "location": "Mahallah Maryam, Ground Floor",
+    "openHours": "9:00 am - 8:00 pm",
+    "isOpen": true,
+    "menu": [
+      { "id": "2415246-m1", "name": "Strawberry Cheesecake", "price": 9.00, "category": "Cakes", "popular": true, "spice": 1 },
+      { "id": "2415246-m2", "name": "Chocolate Fudge Cake", "price": 8.00, "category": "Cakes", "popular": true, "spice": 1 },
+      { "id": "2415246-m3", "name": "Matcha Crepe Cake", "price": 10.00, "category": "Cakes", "popular": true, "spice": 1 },
+      { "id": "2415246-m4", "name": "Mango Pudding", "price": 5.00, "category": "Desserts", "popular": false, "spice": 1 },
+      { "id": "2415246-m5", "name": "Cinnamon Roll", "price": 5.50, "category": "Pastries", "popular": true, "spice": 1 },
+      { "id": "2415246-m6", "name": "Butter Croissant", "price": 4.50, "category": "Pastries", "popular": false, "spice": 1 },
+      { "id": "2415246-m7", "name": "Hot Chocolate", "price": 6.50, "category": "Drinks", "popular": false, "spice": 1 },
+      { "id": "2415246-m8", "name": "Mango Smoothie", "price": 8.00, "category": "Drinks", "popular": false, "spice": 1 }
+    ]
+  }
+]
