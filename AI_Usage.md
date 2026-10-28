@@ -25,14 +25,10 @@ There's one time I pasted the code for App.jsx then AI missed this line ('const 
 Then, my website crashed and i figured that I can see at my console tab then it shows what's the error, then I checked again and add the missing line back my own.
 
 ## Week 4
--Tool(s): DeepSeek
-
+- Tool(s): DeepSeek
 - What I asked for:I asked AI to help me understand the overall concepts, then as a reference guide. I specifically asked about how context API stops the prop drilling,how to set up React Router. I also asked to ensure if i'm following each step correctly.
-
 - What I kept, changed or rejected, and why: I kept previous week 3 components. I kept all my previous works ( components,css), the fetch logic but i moved it from App.jsx > useVnedors.jsx.
-
--i updated my header and cartpage to use useCart() , so it's easier to follow the codes.
--i also cahnged the max spice state to useLocalStorage instead of useState, so when refresh the page, the user's choice is still there.
-
+- i updated my header and cartpage to use useCart() , so it's easier to follow the codes.
+- i also cahnged the max spice state to useLocalStorage instead of useState, so when refresh the page, the user's choice is still there.
 - One thing the AI got wrong and how I fixed it:
 I asked deepseek about my app.jsx code, then the website crashed, then i checked the code manually witht he lab sheet's, then i figured i missed the notfoundpage.jsx in the pages folder.
