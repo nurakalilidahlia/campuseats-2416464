@@ -1,21 +1,21 @@
-function VendorCard({ vendor, isSelected, onSelect }) {
+import { Link } from 'react-router'
+
+function VendorCard({ vendor }) {
   return (
-    <button
-      type="button"
-      className={isSelected ? 'card vendor-card selected' : 'card vendor-card'}
-      onClick={() => onSelect(vendor.id)}
-    >
-      <div className="thumb" aria-hidden="true">{vendor.name.charAt(0)}</div>
-      <div>
+    // The Link wraps the whole card so it navigates to /vendor/:id
+    <Link to={`/vendor/${vendor.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+      
+      {/* Assuming your CSS uses 'vendor-card' and 'card' classes. 
+          If your old code used a different className, you can change it here. */}
+      <div className="vendor-card card">
         <h3>{vendor.name}</h3>
-        <p className="muted">{vendor.location}</p>
-        <p className="muted">Open: {vendor.openHours}</p>
-        <span className={vendor.isOpen ? 'status open' : 'status closed'}>
-          {vendor.isOpen ? 'Open now' : 'Closed'}
-        </span>
+        
+        {/* If your old card had a description or rating, keep it here! */}
+        {vendor.description && <p>{vendor.description}</p>}
       </div>
-    </button>
+
+    </Link>
   )
 }
- 
+
 export default VendorCard

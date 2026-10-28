@@ -1,89 +1,44 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router'
 
-const MAHALLAHS = ['Ali', 'Aminah', 'Faruq', 'Asiah', 'Bilal', 'Hafsa', 'Uthman', 'Zubair']
-// A plain function: values in, errors object out. Empty object = valid.
-function validate(values) {
-  const errors = {}
+export default function CheckoutForm({ onPlaceOrder }) {
+  const navigate = useNavigate()
   
-  if (values.name.trim().length < 3) {
-    errors.name = 'Enter your name (at least 3 characters).'
-  }
-  
-  //  TODO: mahallah must be chosen
-  if (!values.mahallah) {
-    errors.mahallah = 'Choose your mahallah.'
-  }
-    // TODO: pickupTime must be between '07:00' and '22:00' (strings compare fine)
-  if (!values.pickupTime || values.pickupTime < '07:00' || values.pickupTime > '22:00') {
-    errors.pickupTime = 'Choose a pickup time between 07:00 and 22:00.'
-  }
-  
-  return errors
-}
+ 
+  const [name, setName] = useState('')
+  const [pickupTime, setPickupTime] = useState('')
+  const [mahallah, setMahallah] = useState('')
 
-function CheckoutForm({ onPlaceOrder }) {
-  const [values, setValues] = useState({ name: '', mahallah: '', pickupTime: '' })
-  const [errors, setErrors] = useState({})
- // One handler for every input: the input's name matches a key in values.
-  function handleChange(event) {
-    const { name, value } = event.target
-    setValues((prev) => ({ ...prev, [name]: value }))
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault() 
-    const found = validate(values)
-    setErrors(found)
-      // TODO: if found has no keys, call onPlaceOrder(values)
+  function handleSubmit(e) {
+    e.preventDefault()
     
-    if (Object.keys(found).length === 0) {
-      onPlaceOrder(values)
-    }
+    
+    onPlaceOrder({ name, pickupTime, mahallah })
+    
+    
+    navigate('/orders')
   }
 
   return (
-    <form className="card form" onSubmit={handleSubmit} noValidate>
+    <form className="card checkout-form" onSubmit={handleSubmit}>
       <h3>Checkout</h3>
       
-      <label htmlFor="name">Name</label>
-      <input
-        id="name"
-        name="name"
-        value={values.name}
-        onChange={handleChange}
-        placeholder="Enter your name"
-      />
-      {errors.name && <p className="field-error">{errors.name}</p>}
+      
+      <div style={{ marginBottom: '1rem' }}>
+        <label>Name</label>
+        <input value={name} onChange={e => setName(e.target.value)} required />
+      </div>
+      <div style={{ marginBottom: '1rem' }}>
+        <label>Pickup Time</label>
+        <input value={pickupTime} onChange={e => setPickupTime(e.target.value)} required />
+      </div>
+      <div style={{ marginBottom: '1rem' }}>
+        <label>Mahallah</label>
+        <input value={mahallah} onChange={e => setMahallah(e.target.value)} required />
+      </div>
+    
 
-      <label htmlFor="mahallah">Mahallah</label>
-      <select
-        id="mahallah"
-        name="mahallah"
-        value={values.mahallah}
-        onChange={handleChange}
-      >
-        <option value="">Select...</option>
-        {MAHALLAHS.map((m) => (
-          <option key={m} value={m}>
-            {m}
-          </option>
-        ))}
-      </select>
-      {errors.mahallah && <p className="field-error">{errors.mahallah}</p>}
-
-      <label htmlFor="pickupTime">Pickup time</label>
-      <input
-        id="pickupTime"
-        type="time"
-        name="pickupTime"
-        value={values.pickupTime}
-        onChange={handleChange}
-      />
-      {errors.pickupTime && <p className="field-error">{errors.pickupTime}</p>}
-
-      <button type="submit" className="btn">Place order</button>
+      <button type="submit" className="btn">Place Order</button>
     </form>
   )
 }
-
-export default CheckoutForm
