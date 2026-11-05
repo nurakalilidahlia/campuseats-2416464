@@ -10,10 +10,9 @@ export function useVendors() {
     setLoading(true)
     setError(null)
     try {
-      // ⚠️ KEEP YOUR EXACT FETCH URL HERE (from your old App.jsx)
-      const res = await fetch('/api/vendors.json', { signal: controller.signal })
-      if (!res.ok) throw new Error(`Failed to load vendors (status ${res.status})`)
-      const data = await res.json()
+     const res = await fetch('/api/vendors.json', { signal: controller.signal })
+     if (!res.ok) throw new Error(`Failed to load vendors (status ${res.status})`)
+    const data = await res.json()
       setVendors(data)
     } catch (err) {
       if (err.name === 'AbortError') return

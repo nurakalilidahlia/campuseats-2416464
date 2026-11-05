@@ -1,44 +1,84 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
+// The options for the dropdown
+const MAHALLAHS = ['Ali', 'Aminah', 'Faruq', 'Asiah', 'Bilal', 'Hafsa', 'Uthman', 'Zubair']
+
 export default function CheckoutForm({ onPlaceOrder }) {
   const navigate = useNavigate()
   
- 
-  const [name, setName] = useState('')
-  const [pickupTime, setPickupTime] = useState('')
-  const [mahallah, setMahallah] = useState('')
+  // State for the form values
+  const [values, setValues] = useState({ name: '', mahallah: '', pickupTime: '' })
+  const [error, setError] = useState('')
 
-  function handleSubmit(e) {
-    e.preventDefault()
+  // One handler for all inputs
+  function handleChange(event) {
+    const { name, value } = event.target
+    setValues((prev) => ({ ...prev, [name]: value }))
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault() //prevent form reloading ; event atau e both can ; if not react will auto back to default & refresh entire page(lose all its memory/state/inputs)
+
+    // Validation
+    if (values.name.trim().length < 3) {
+      setError('Name must be at least 3 characters.')
+      return
+    }
+    if (!values.mahallah) {
+      setError('Please choose a mahallah.')
+      return
+    }
+    if (!values.pickupTime) {
+      setError('Please choose a pickup time.')
+      return
+    }
+
+    setError('')
     
-    
-    onPlaceOrder({ name, pickupTime, mahallah })
-    
-    
+    // Send data up to the parent (CartProvider) and navigate
+    onPlaceOrder(values)
     navigate('/orders')
   }
 
   return (
-    <form className="card checkout-form" onSubmit={handleSubmit}>
+    // Note the className="card form" which applies the CSS!
+    <form className="card form" onSubmit={handleSubmit}>
       <h3>Checkout</h3>
       
-      
-      <div style={{ marginBottom: '1rem' }}>
-        <label>Name</label>
-        <input value={name} onChange={e => setName(e.target.value)} required />
-      </div>
-      <div style={{ marginBottom: '1rem' }}>
-        <label>Pickup Time</label>
-        <input value={pickupTime} onChange={e => setPickupTime(e.target.value)} required />
-      </div>
-      <div style={{ marginBottom: '1rem' }}>
-        <label>Mahallah</label>
-        <input value={mahallah} onChange={e => setMahallah(e.target.value)} required />
-      </div>
-    
+      {error && <p className="field-error">{error}</p>}
 
-      <button type="submit" className="btn">Place Order</button>
+      <label htmlFor="name">Name</label>
+      <input 
+        id="name"
+        name="name" 
+        value={values.name} 
+        onChange={handleChange} 
+      />
+
+      <label htmlFor="mahallah">Mahallah</label>
+      <select 
+        id="mahallah"
+        name="mahallah" 
+        value={values.mahallah} 
+        onChange={handleChange}
+      >
+        <option value="">Select...</option>
+        {MAHALLAHS.map((m) => (
+          <option key={m} value={m}>{m}</option>
+        ))}
+      </select>
+
+      <label htmlFor="pickupTime">Pickup time</label>
+      <input 
+        id="pickupTime"
+        name="pickupTime" 
+        type="time" 
+        value={values.pickupTime} 
+        onChange={handleChange} 
+      />
+
+      <button type="submit" className="btn">Place order</button>
     </form>
   )
 }

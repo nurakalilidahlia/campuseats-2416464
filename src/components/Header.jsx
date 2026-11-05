@@ -12,6 +12,12 @@ function Header() {
         <NavLink to="/" end className="link">
           Vendors
         </NavLink>
+        
+        {/* NEW: My Orders link added here */}
+        <NavLink to="/orders" className="link">
+          My Orders
+        </NavLink>
+        
         <NavLink to="/cart" className="link cart">
           Cart <span className="badge">{count}</span>
         </NavLink>
