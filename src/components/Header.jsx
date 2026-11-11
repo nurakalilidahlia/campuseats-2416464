@@ -1,8 +1,16 @@
-import { NavLink } from 'react-router'
+import { NavLink, useNavigate } from 'react-router'
 import { useCart } from '../hooks/useCart.js'
+import { useAuth } from '../hooks/useAuth.js'
 
 function Header() {
   const { count } = useCart()
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
+
+  async function handleLogout() {
+    await logout()
+    navigate('/')
+  }
 
   return (
     <header className="header">
@@ -13,7 +21,6 @@ function Header() {
           Vendors
         </NavLink>
         
-        {/* NEW: My Orders link added here */}
         <NavLink to="/orders" className="link">
           My Orders
         </NavLink>
@@ -21,6 +28,20 @@ function Header() {
         <NavLink to="/cart" className="link cart">
           Cart <span className="badge">{count}</span>
         </NavLink>
+
+        {/* NEW: Auth links */}
+        {user ? (
+          <>
+            <span className="user-name">Hi, {user.displayName || user.email}</span>
+            <button type="button" className="link" onClick={handleLogout}>
+              Log out
+            </button>
+          </>
+        ) : (
+          <NavLink to="/login" className="link">
+            Log in
+          </NavLink>
+        )}
       </nav>
     </header>
   )
