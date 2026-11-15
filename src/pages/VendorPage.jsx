@@ -1,66 +1,46 @@
-import { useParams, Link } from 'react-router'
-import { useVendors } from '../hooks/useVendors.js'
-import { useLocalStorage } from '../hooks/useLocalStorage.js'
+import { useState } from 'react'
+import { Link, useParams } from 'react-router'
+import { useVendor } from '../hooks/useVendor.js'
 import MenuList from '../components/MenuList.jsx'
-import { Loading, ErrorMessage } from '../components/Status.jsx'
 
 export default function VendorPage() {
-  // 1. Get the ID from the URL (e.g., /vendor/1)
   const { id } = useParams()
   
-  // 2. Get vendors
-  const { vendors, loading, error, reload } = useVendors()
+  // 1. State for the filter
+  const [maxSpice, setMaxSpice] = useState(3) 
+  
+  // 2. Pass it to the hook
+  const { vendor, menu, loading, error } = useVendor(id, maxSpice)
 
-  // 3. Your personal feature (digit 4): persist maxSpice!
-  const [maxSpice, setMaxSpice] = useLocalStorage('maxSpice', 5)
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error: {error}</p>
+  if (!vendor) return <p>Vendor not found. <Link to="/">Back to vendors</Link></p>
 
-  if (loading) return <Loading />
-  if (error) return <ErrorMessage message={error} onRetry={reload} />
-
-  // 4. Find the vendor that matches the ID in the URL
-  const vendor = vendors.find((v) => String(v.id) === id)
-
-  // 5. Handle unknown vendor (required by the lab sheet)
-  if (!vendor) {
-    return (
-      <div className="card" style={{ textAlign: 'center', padding: '2rem' }}>
-        <h2>Vendor not found</h2>
-        <p className="muted">The vendor you are looking for does not exist.</p>
-        <Link to="/" className="btn" style={{ display: 'inline-block', marginTop: '1rem' }}>
-          Back to Home
-        </Link>
-      </div>
-    )
-  }
-
-  // 6. Filter the menu based on the spice slider
-  const filteredMenu = vendor.menu.filter((item) => (item.spice || 1) <= maxSpice)
+  const items = menu.map((item) => ({ ...item, vendorName: vendor.name }))
 
   return (
     <section>
-      <div style={{ marginBottom: '1rem' }}>
-        <Link to="/" className="link">← Back to vendors</Link>
-      </div>
+      <p><Link to="/"> All vendors</Link></p>
+      <h2 className="section-title">{vendor.name}</h2>
+      <p className="muted">{vendor.location} · {vendor.openHours}</p>
       
-      <h2 className="section-title">Menu: {vendor.name}</h2>
-
-      {/* The Slider UI */}
-      <div style={{ marginBottom: '1rem', padding: '1rem', background: '#f4f7f6', borderRadius: '8px' }}>
-        <label htmlFor="spice-filter" style={{ fontWeight: 'bold', marginRight: '1rem' }}>
-          Max Spice Level: {maxSpice}
-        </label>
-        <input
-          id="spice-filter"
-          type="range"
-          min="1"
-          max="5"
-          value={maxSpice}
+      {/* 3. The Filter Dropdown */}
+      <div style={{ margin: '1rem 0' }}>
+        <label htmlFor="spice-filter">Max Spice Level: </label>
+        <select 
+          id="spice-filter" 
+          value={maxSpice} 
           onChange={(e) => setMaxSpice(Number(e.target.value))}
-        />
+          style={{ padding: '0.3rem', borderRadius: '8px' }}
+        >
+          <option value={0}>0 (No Spice)</option>
+          <option value={1}>1 (Mild 🌶️)</option>
+          <option value={2}>2 (Medium 🌶️🌶️)</option>
+          <option value={3}>3 (Hot 🌶️🌶️🌶️)</option>
+        </select>
       </div>
 
-      {/* MenuList now gets its items! */}
-      <MenuList items={filteredMenu} />
+      <MenuList items={items} />
     </section>
   )
 }

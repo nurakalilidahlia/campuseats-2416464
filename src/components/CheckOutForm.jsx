@@ -1,14 +1,11 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router'
 
 // The options for the dropdown
 const MAHALLAHS = ['Ali', 'Aminah', 'Faruq', 'Asiah', 'Bilal', 'Hafsa', 'Uthman', 'Zubair']
 
-export default function CheckoutForm({ onPlaceOrder }) {
-  const navigate = useNavigate()
-  
-  // State for the form values
-  const [values, setValues] = useState({ name: '', mahallah: '', pickupTime: '' })
+export default function CheckoutForm({ defaultValue = '', onPlaceOrder }) {
+  // State for the form values (pre-fill the name with defaultValue)
+  const [values, setValues] = useState({ name: defaultValue, mahallah: '', pickupTime: '' })
   const [error, setError] = useState('')
 
   // One handler for all inputs
@@ -18,7 +15,7 @@ export default function CheckoutForm({ onPlaceOrder }) {
   }
 
   function handleSubmit(event) {
-    event.preventDefault() //prevent form reloading ; event atau e both can ; if not react will auto back to default & refresh entire page(lose all its memory/state/inputs)
+    event.preventDefault()
 
     // Validation
     if (values.name.trim().length < 3) {
@@ -36,13 +33,11 @@ export default function CheckoutForm({ onPlaceOrder }) {
 
     setError('')
     
-    // Send data up to the parent (CartProvider) and navigate
+    // Send data up to CartPage. Do NOT navigate here.
     onPlaceOrder(values)
-    navigate('/orders')
   }
 
   return (
-    // Note the className="card form" which applies the CSS!
     <form className="card form" onSubmit={handleSubmit}>
       <h3>Checkout</h3>
       

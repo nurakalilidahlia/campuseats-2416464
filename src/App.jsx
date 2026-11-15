@@ -11,6 +11,7 @@ import VendorPage from './pages/VendorPage.jsx'
 import CartPage from './pages/CartPage.jsx'
 import OrdersPage from './pages/OrdersPage.jsx'
 import NotFoundPage from './pages/NotFoundPage.jsx'
+import SeedPage from './pages/SeedPage.jsx' // <-- NEW LINE
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
             <Route path="vendor/:id" element={<VendorPage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
+            
+            {/* Seed Route */}
+            {import.meta.env.DEV && <Route path="seed" element={<SeedPage />} />} {/* <-- NEW LINE */}
 
             {/* Protected Routes (Requires Login) */}
             <Route element={<ProtectedRoute />}>

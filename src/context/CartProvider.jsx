@@ -2,11 +2,10 @@ import { useLocalStorage } from '../hooks/useLocalStorage.js'
 import { CartContext } from './cart-context.js'
 
 export function CartProvider({ children }) {
-  // 1. We use your custom hook to save cart AND orders history to localStorage
+  // 1. Keep the cart in localStorage (only orders go to Firestore now)
   const [cart, setCart] = useLocalStorage('cart', [])
-  const [orders, setOrders] = useLocalStorage('orders', [])
 
-  // 2. Your exact cart functions (moved from App.jsx)
+  // 2. Your exact cart functions
   function addToCart(item) {
     setCart((prevCart) => {
       const existingLine = prevCart.find((line) => line.item.id === item.id)
@@ -34,14 +33,9 @@ export function CartProvider({ children }) {
     setCart((prevCart) => prevCart.filter((line) => line.item.id !== itemId))
   }
 
-  // 3. The new placeOrder function (saves to history and clears the cart)
-  function placeOrder(details) {
-    const total = cart.reduce((sum, line) => sum + line.item.price * line.qty, 0)
-    const newOrder = { ...details, total, items: cart, date: new Date().toISOString() }
-    
-    setOrders((prevOrders) => [newOrder, ...prevOrders]) // add to history
-    setCart([]) // clear cart
-    return newOrder
+  // 3. NEW: clearCart function (replaces placeOrder)
+  function clearCart() {
+    setCart([])
   }
 
   // 4. Calculate totals for the header/cart page
@@ -53,13 +47,12 @@ export function CartProvider({ children }) {
     <CartContext.Provider
       value={{
         cart,
-        orders,
         count,
         total,
         addToCart,
         changeQty,
         removeFromCart,
-        placeOrder,
+        clearCart, // <-- NEW
       }}
     >
       {children}

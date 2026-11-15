@@ -1,30 +1,30 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { subscribeToVendors } from '../services/vendors.js'
 
 export function useVendors() {
   const [vendors, setVendors] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-
-  const reload = useCallback(async () => {
-    const controller = new AbortController()
-    setLoading(true)
-    setError(null)
-    try {
-     const res = await fetch('/api/vendors.json', { signal: controller.signal })
-     if (!res.ok) throw new Error(`Failed to load vendors (status ${res.status})`)
-    const data = await res.json()
-      setVendors(data)
-    } catch (err) {
-      if (err.name === 'AbortError') return
-      setError(err.message)
-    } finally {
-      setLoading(false)
-    }
-  }, [])
+  const [reloadKey, setReloadKey] = useState(0)
 
   useEffect(() => {
-    reload()
-  }, [reload])
+    setLoading(true)
+    setError(null)
+    
+    // This is the live listener
+    const unsubscribe = subscribeToVendors(
+      (data) => { 
+        setVendors(data); 
+        setLoading(false) 
+      },
+      (err) => { 
+        setError(err.message); 
+        setLoading(false) 
+      },
+    )
+    
+    return unsubscribe // stop listening when the component unmounts
+  }, [reloadKey])
 
-  return { vendors, loading, error, reload }
+  return { vendors, loading, error, reload: () => setReloadKey((k) => k + 1) }
 }
